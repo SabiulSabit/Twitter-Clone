@@ -1,0 +1,25 @@
+Step 1: Signup/Signin User 
+    -> Create a DB for userinfo
+    -> Create User Create API
+    -> Create User Login API
+    -> Build the UI for this section
+
+Step 2: Create/Delete Post
+    -> Create a DB for tweet
+    -> Make API for tweeting (Only Authorized User Can do that)
+    -> Make API Owner Can Delete His tweet    
+    -> Create UI for this section
+
+Step 3: Show Profile
+    -> Show Own Profile + Show Other User Profile
+    -> Create UI for this section
+
+Step 4: Follow Each Other 
+    -> Create API for follow user (Only Authorized User Can do that)
+    -> Create UI for this section
+
+Step 5: Random Task
+    -> Build API tweet details
+    -> Add Like Option API 
+    -> Get Data By pagination etc
+    -> Create UI for this section
