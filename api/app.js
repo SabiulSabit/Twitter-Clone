@@ -11,7 +11,7 @@ require('dotenv').config();
 const app = express();
 
 // import all router
-
+const authRouter =  require('./routes/auth.js');
 
 
 //middleware
@@ -33,7 +33,7 @@ mongoose.connect(process.env.DATABASE, {
 
 
 //routing file
-
+app.use("/api",authRouter);
 
 
 
