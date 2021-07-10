@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from './components/Home/Home'
 import Signup from './components/Signup/Signup'
 import Signin from './components/Signin/Signin'
+import CreateTweet from './components/CreateTweet/CreateTweet'
 
 const Routes = () => {
     return (
@@ -14,6 +15,7 @@ const Routes = () => {
           <Route path="/" exact component={Home} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/signin" exact component={Signin} />
+          <Route path="/tweet" exact component={CreateTweet} />
           
         </Switch>
       </BrowserRouter>

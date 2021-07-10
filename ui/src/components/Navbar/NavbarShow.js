@@ -7,7 +7,7 @@ import { signout, isAuthenticate  } from "../../api/auth";
 const NavbarShow = ()=> {
   
    const {user} = isAuthenticate();
-   console.log(user);
+   //console.log(user);
     return (
       <div  className="navbar_nav">
       <Navbar expand="lg"  bg="dark" variant="dark" >
@@ -68,6 +68,11 @@ const NavbarShow = ()=> {
               as={Link}
               to="/user/profile" >
                {user.username}
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/tweet" >
+               Tweet
             </Nav.Link>
               <Nav.Link
                 as={Link}

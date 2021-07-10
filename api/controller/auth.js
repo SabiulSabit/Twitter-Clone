@@ -26,7 +26,7 @@ exports.isAuth = (req, res, next) => {
   next();
 };
 
-//check if the user is the author of a post
+//check if the user is the author of a tweet
 exports.isAuthor = (req, res, next) => {
   if (!req.profile._id == req.tweet.author) {
     return res.status(403).json({
