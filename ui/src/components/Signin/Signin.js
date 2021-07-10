@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import Navbar from "../Navbar/NavbarShow";
+import { signin } from "../../api/auth";
 
-//api method
-import {signup} from '../../api/auth.js'
-
-const Signup = () => {
+const Signin = () => {
   let [error, setError] = useState(0);
-  let [success, setSuccess] = useState(0);
+  let [loading, setLoading] = useState(false);
+  let [redirect, setRedirect] = useState(false);
+
+ // const {user} = isAuthenticate();
 
   const {
     register,
@@ -19,18 +19,21 @@ const Signup = () => {
   } = useForm();
 
   let onSubmit = (data) => {
-    const { name, email, password } = data;
-    signup({ name, email, password }).then((data) => {
-     // console.log(data.error, data.err);
+    const { email, password } = data;
+    setLoading(true);
+    signin({ email, password }).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
+        setRedirect(false);
+        setLoading(false);
       } else {
-        setSuccess(1);
-        setError(0);
-        setValue("name", "", { shouldValidate: false });
-        setValue("email", "", { shouldValidate: false });
-        setValue("password", "", { shouldValidate: false });
+        // authenticate(data, () => {
+        //   setError(0);
+        //   setValue("email", "", { shouldValidate: false });
+        //   setValue("password", "", { shouldValidate: false });
+        //   setLoading(false);
+        //   setRedirect(true);
+        // });
       }
     });
   };
@@ -41,38 +44,22 @@ const Signup = () => {
         <Col md={8} className="offset-md-2">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
-              <label htmlFor="name" className="text-muted">
-                <strong>Name </strong>
-                <span className="err">
-                  {errors.name && "This Field is Required"}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                placeholder="Your Name"
-                className="form-control"
-                {...register("name", { required: true, maxLength: 32 })}
-              />
-            </div>
-            <div className="form-group">
               <label htmlFor="email" className="text-muted">
-                <strong>Email </strong>
+                <strong>Email{" "}</strong>
                 <span className="err">
-                  {errors.email && "This Field is Required"}
+                  {errors.email && "This Fields is Required"}
                 </span>
               </label>
               <input
                 type="email"
                 id="email"
-                placeholder="Enter Your Email"
                 className="form-control"
                 {...register("email", { required: true })}
               />
             </div>
             <div className="form-group">
               <label htmlFor="password" className="text-muted">
-                <strong>Password </strong>
+                <strong>Password{" "}</strong> 
                 <span className="err">
                   {errors.password && "This Fields is Required"}
                 </span>
@@ -80,7 +67,6 @@ const Signup = () => {
               <input
                 type="password"
                 id="password"
-                placeholder="Enter Your Password"
                 className="form-control"
                 {...register("password", { required: true })}
               />
@@ -95,7 +81,7 @@ const Signup = () => {
   );
 
   const showError = () => {
-    //console.log(error);
+    console.log(error);
     return (
       <div
         className="alert alert-danger"
@@ -106,24 +92,40 @@ const Signup = () => {
     );
   };
 
-  const showSuccess = () => {
+  const showLoading = () => {
     return (
-      <div
-        className="alert alert-info"
-        style={{ display: success ? "" : "none" }}
-      >
-        Account Create Successfully. Please <Link to="/signin">Signin</Link>
-      </div>
+      loading && (
+        <div className="alert alert-info">
+          <h2>Loading...</h2>
+        </div>
+      )
     );
   };
 
+//   const redirectUser = () => {
+//     if (redirect) {
+//        if(user && user.role === 1){
+//            return <Redirect to="/admin/dashboard" />;
+//        }
+//        else{
+//           return <Redirect to="/user/dashboard" />;
+//        }
+     
+//     }
+
+//     if(isAuthenticate()){
+//       return <Redirect to="/" />;
+//     }
+//   };
+
   return (
-  <>
-      {showSuccess()}
+    <>
+      {showLoading()}
+      {/* {redirectUser()} */}
       {showError()}
       {singUPForm()}
     </>
   );
 };
 
-export default Signup;
+export default Signin;
