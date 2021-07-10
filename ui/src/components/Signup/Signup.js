@@ -39,6 +39,7 @@ const Signup = () => {
     <Container className="center">
       <Row>
         <Col md={8} className="offset-md-2">
+          <h3 className="text-center">Signup</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label htmlFor="name" className="text-muted">
@@ -119,6 +120,7 @@ const Signup = () => {
 
   return (
   <>
+      <Navbar></Navbar>
       {showSuccess()}
       {showError()}
       {singUPForm()}

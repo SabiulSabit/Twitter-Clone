@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
+import { signout, isAuthenticate  } from "../../api/auth";
 
 
 const NavbarShow = ()=> {
-
+  
+   const {user} = isAuthenticate();
+   console.log(user);
     return (
       <div  className="navbar_nav">
       <Navbar expand="lg"  bg="dark" variant="dark" >
@@ -40,7 +43,7 @@ const NavbarShow = ()=> {
             </Nav.Link>
           )} */}
 
-          {/* {!isAuthenticate() && ( */}
+          {!isAuthenticate() && (
             <>
               <Nav.Link
                 as={Link}
@@ -57,20 +60,24 @@ const NavbarShow = ()=> {
               Signup
               </Nav.Link>
             </>
-          {/* )} */}
+          )}
 
-          {/* {isAuthenticate() && ( */}
+          {isAuthenticate() && (
             <>
+             <Nav.Link
+              as={Link}
+              to="/user/profile" >
+               {user.username}
+            </Nav.Link>
               <Nav.Link
                 as={Link}
-                to="/"
-                style={{ cursor: "pointer", color: "white" }}
-               
-              >
-              
+                to="/" onClick={() =>
+                  signout()
+                  }>
+              Signout
               </Nav.Link>
             </>
-          {/* )} */}
+          )} 
         </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -82,8 +89,3 @@ const NavbarShow = ()=> {
 
 export default NavbarShow;
 
-// onClick={() =>
-// signout(() => {
-//   history.push("/");
-// })
-// }

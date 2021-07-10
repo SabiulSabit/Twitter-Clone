@@ -51,13 +51,13 @@ exports.postSignin = (req,res,next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.cookie("t", token, { expire: new Date() + 9999 });
 
-    const { _id, name, email } = user;
+    const { _id, username, email } = user;
     return res.json({
       token,
       user: {
         _id,
         email,
-        name,
+        username,
       },
     });
   });

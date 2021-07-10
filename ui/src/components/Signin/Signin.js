@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
-import { signin } from "../../api/auth";
+import { Container, Row, Col, Nav } from "react-bootstrap";
+import { signin, authenticate, isAuthenticate  } from "../../api/auth";
+import Navbar from '../Navbar/NavbarShow'
 
 const Signin = () => {
   let [error, setError] = useState(0);
@@ -27,13 +28,13 @@ const Signin = () => {
         setRedirect(false);
         setLoading(false);
       } else {
-        // authenticate(data, () => {
-        //   setError(0);
-        //   setValue("email", "", { shouldValidate: false });
-        //   setValue("password", "", { shouldValidate: false });
-        //   setLoading(false);
-        //   setRedirect(true);
-        // });
+        authenticate(data, () => {
+          setError(0);
+          setValue("email", "", { shouldValidate: false });
+          setValue("password", "", { shouldValidate: false });
+          setLoading(false);
+          setRedirect(true);
+        });
       }
     });
   };
@@ -42,6 +43,7 @@ const Signin = () => {
     <Container className="center">
       <Row>
         <Col md={8} className="offset-md-2">
+        <h3 className="text-center">Signin</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label htmlFor="email" className="text-muted">
@@ -102,26 +104,21 @@ const Signin = () => {
     );
   };
 
-//   const redirectUser = () => {
-//     if (redirect) {
-//        if(user && user.role === 1){
-//            return <Redirect to="/admin/dashboard" />;
-//        }
-//        else{
-//           return <Redirect to="/user/dashboard" />;
-//        }
-     
-//     }
+  const redirectUser = () => {
+    if (redirect) {
+          return <Redirect to="/user/profile" />;
+    }
 
-//     if(isAuthenticate()){
-//       return <Redirect to="/" />;
-//     }
-//   };
+    if(isAuthenticate()){
+      return <Redirect to="/" />;
+    }
+  };
 
   return (
     <>
+     <Navbar></Navbar>
       {showLoading()}
-      {/* {redirectUser()} */}
+      {redirectUser()}
       {showError()}
       {singUPForm()}
     </>
