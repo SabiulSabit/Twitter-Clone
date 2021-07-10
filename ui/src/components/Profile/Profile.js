@@ -22,9 +22,10 @@ const Profile = () => {
         setError(data.error);
         setSuccess(0);
       } else {
-        console.log(data);
+        
         setUserInfo(data.user);
         setUserTweets(data.tweets);
+        console.log(data);
       }
     });
   }, []);
@@ -56,20 +57,21 @@ const Profile = () => {
       <Row>
         <Col md={6}>
           <h2>User Name</h2>
-          <h3>{user.username}</h3>
+          <h3>{userInfo.username}</h3>
         </Col>
         <Col md={3} className="text-center">
-          <h2> {user.following ? user.following.length : 0}</h2>
+          <h2> {userInfo.following ? userInfo.following.length : 0}</h2>
           <h4>Following</h4>
         </Col>
         <Col md={3} className="text-center">
-          <h2>{user.followers ? user.followers.length : 0}</h2>
+         
+          <h2>{userInfo.followers ? userInfo.followers.length : 0}</h2>
           <h4>Followers</h4>
         </Col>
 
         <Col md={12} className="mt-5">
           <hr />
-          <h4>{user.username}'s All Tweets</h4>
+          <h4>{userInfo.username}'s All Tweets</h4>
           <h5>Total: {userTweets ? userTweets.length : 0}</h5>
           <hr />
 
@@ -81,7 +83,7 @@ const Profile = () => {
   return (
     <>
       <Navbar></Navbar>
-      {showProfile()}
+      {showProfile(userInfo)}
     </>
   );
 };

@@ -42,9 +42,8 @@ export const getProfile = (userID, token) => {
 
   //get other single user profile
   export const getOtherProfile = ( userID, token) => {
-    //console.log(userID, token)
+
     let id = Object.values(userID);
-   // console.log(id[0])
     return fetch(`${API}/user/other/${id[0]}`, {
       method: "GET",
       headers: {
@@ -60,3 +59,25 @@ export const getProfile = (userID, token) => {
         return err;
       });
   };
+
+  //follow user
+  export const putFollowUser = ( userID, token) => {
+ 
+    let id = Object.values(userID);
+
+    return fetch(`${API}/user/follow/${id[0]}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+  

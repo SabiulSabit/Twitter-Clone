@@ -18,10 +18,17 @@ router
   .route("/users/all")
   .get(authController.requireSignin, userController.getAllProfile);    
 
-//other user info /user/other/
+//other user info 
 router
   .route("/user/other/:userId")
   .get(authController.requireSignin, userController.getOtherUserProfile);  
+
+//follow user
+router
+  .route("/user/follow/:userId")
+  .put(authController.requireSignin, userController.putFollowUser);  
+
+
 
 
 

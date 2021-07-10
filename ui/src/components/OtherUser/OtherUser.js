@@ -4,7 +4,7 @@ import Navbar from "../Navbar/NavbarShow";
 import { Link, useParams } from "react-router-dom";
 
 //api method
-import { getOtherProfile } from "../../api/user";
+import { getOtherProfile, putFollowUser } from "../../api/user";
 import { isAuthenticate } from "../../api/auth.js";
 
 const OtherUser = () => {
@@ -12,6 +12,7 @@ const OtherUser = () => {
   let [success, setSuccess] = useState(0);
   let [otherUserInfo, setOtherUserInfo] = useState({});
   let [otherUserTweets, setOtherUserTweets] = useState([]);
+
   //get user info
   const { user, token } = isAuthenticate();
 
@@ -23,17 +24,27 @@ const OtherUser = () => {
     //console.log(params)
     getOtherProfile(params, token).then((data) => {
       if (data.error) {
-        console.log(data.error);
         setError(data.error);
         setSuccess(0);
       } else {
-        console.log(data);
-        console.log("Success");
         setOtherUserInfo(data.user);
         setOtherUserTweets(data.tweets);
       }
     });
   }, []);
+
+  //follow user
+  let follow = () => {
+   
+    putFollowUser(params, token).then((data)=>{
+      if(data.error){
+        setError(data.error);
+        setSuccess(0);
+      }else{
+        setOtherUserInfo(data.user);
+      }
+    })
+  };
 
   let showTweets = (tweets) => (
     <Container>
@@ -77,14 +88,17 @@ const OtherUser = () => {
               <h5>Followers</h5>
             </Col>
             <Col md={12}>
-                <button className="btn btn-outline-warning float-right">Follow</button>
+              <button
+                className="btn btn-outline-warning float-right"
+                onClick={follow}
+              >
+                Follow
+              </button>
             </Col>
           </Row>
         </Col>
 
-
         <Col md={8}>
-
           <h4>{otherUserInfo.username}'s All Tweets</h4>
           <h5>Total: {otherUserTweets ? otherUserTweets.length : 0}</h5>
           <hr />
