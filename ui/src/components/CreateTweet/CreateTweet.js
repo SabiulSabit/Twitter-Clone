@@ -12,6 +12,7 @@ const CreateTweet = () => {
  
   let [error, setError] = useState(0);
   let [success, setSuccess] = useState(0);
+  let [tweetId, setTweetId] = useState(0);
 
   const {
     register,
@@ -24,15 +25,15 @@ const CreateTweet = () => {
   const { user, token } = isAuthenticate();
 
   const onSubmit = (data) => {
-    console.log(data);
+ 
     createTweet(data, user._id, token).then( (data)=> {
       if(data.error){
-        console.log(data.error)
         setError(1);
         setSuccess(0);
       }else{
         setSuccess(1);
         setError(0);
+        setTweetId(data.data._id)
         setValue("text", "", { shouldValidate: false });
       }
     })
@@ -69,8 +70,9 @@ const CreateTweet = () => {
   );
 
   let showSuccess = () => {
+    
     if(success===1){
-      return <p className="text-success">Tweet Publish Successfully! <Link to="/">View</Link></p>
+      return <p className="text-success">Tweet Publish Successfully! <Link to={`/tweet/details/${tweetId}`}>View</Link></p>
     }else{
       return "";
     }

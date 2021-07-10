@@ -9,6 +9,7 @@ import CreateTweet from './components/CreateTweet/CreateTweet'
 import Profile from './components/Profile/Profile'
 import OtherUser from './components/OtherUser/OtherUser'
 import AllUser from './components/AllUser/AllUser'
+import SingleTweet from "./components/SingleTweet/SingleTweet";
 
 const Routes = () => {
     return (
@@ -22,6 +23,7 @@ const Routes = () => {
           <Route path="/user/profile" exact component={Profile} />
           <Route path="/user/find" exact component={AllUser} />
           <Route path="/profile/:userId" exact component={OtherUser} />
+          <Route path="/tweet/details/:tweetId" exact component={SingleTweet} />
           
         </Switch>
       </BrowserRouter>

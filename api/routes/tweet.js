@@ -20,6 +20,11 @@ router
   .delete(authController.requireSignin, authController.isAuth, authController.isAuthor, tweetController.deleteTweet);    
 
 
+//view details tweet
+router
+  .route("/tweet/details/:postId")
+  .get(authController.requireSignin, tweetController.getTweetDetails);      
+
 //get user info from user id
 router.param("userId", userController.userByID);  
 

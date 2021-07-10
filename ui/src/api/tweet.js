@@ -42,3 +42,23 @@ export const createTweet = (text,userID, token) => {
      });
  };
   
+
+
+ //get single tweet info
+ export const getTweet = (postID, token) => {
+ 
+   return fetch(`${API}/tweet/details/${postID}`, {
+     method: "GET",
+     headers: {
+       Accept: "application/json",
+       Authorization: `Bearer ${token}`,
+     },
+  
+   })
+     .then((res) => {
+       return res.json();
+     })
+     .catch((err) => {
+       return err;
+     });
+ };

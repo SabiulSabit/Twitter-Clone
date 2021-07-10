@@ -70,7 +70,7 @@ const OtherUser = () => {
                 <h5 className="text-success">{t.text}</h5>
 
                 <button className="float-right btn btn-outline-info">
-                  View Details
+                   <Link to={`/tweet/details/${t._id}`}>View Details</Link> 
                 </button>
 
                 <hr className="mt-5" />

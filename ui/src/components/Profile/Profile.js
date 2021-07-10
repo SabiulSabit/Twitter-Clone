@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 //api method
 import { getProfile } from "../../api/user";
-import { isAuthenticate } from "../../api/auth.js";
+import { isAuthenticate } from "../../api/auth";
+import {deleteTweet} from '../../api/tweet'
 
 const Profile = () => {
   let [error, setError] = useState(0);
@@ -22,13 +23,26 @@ const Profile = () => {
         setError(data.error);
         setSuccess(0);
       } else {
-        
+        setSuccess(1);
+        setError(0);
         setUserInfo(data.user);
         setUserTweets(data.tweets);
-        console.log(data);
       }
     });
   }, []);
+
+  let deletePost = (postId) => {
+
+    console.log(postId)
+    deleteTweet(postId,user._id,token).then( (data)=>{
+      if (data.error) {
+        setError(data.error);
+        setSuccess(0);
+      } else{
+        setUserTweets(data.tweets);
+      }
+    } )
+  }
 
   let showTweets= (tweets) => (
     <Container>
@@ -39,8 +53,8 @@ const Profile = () => {
              <div  className="inline">
               <h3 className="text-success">{t.text.substring(0,10)}...</h3>
            
-              <button className="float-right btn btn-outline-info">View Details</button>
-              {  t.author === user._id ? <button className="float-right btn btn-outline-danger">Delete</button> : "" }
+              <button className="float-right btn btn-outline-info"> <Link to={`/tweet/details/${t._id}`}>View Details</Link> </button>
+              {  t.author === user._id ? <button className="float-right btn btn-outline-danger" onClick={ ()=> deletePost(t._id)}>Delete</button> : "" }
               
               <hr className="mt-5" />
             </div>

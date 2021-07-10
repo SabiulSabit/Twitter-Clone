@@ -10,14 +10,13 @@ exports.postByID = (req, res, next, id) => {
     }
 
     req.tweet = tweet;
-    
+
     next();
   });
 };
 
 //create new tweet
 exports.postCreatNewTweet = (req, res, next) => {
-
   const { text } = req.body;
   const authorId = req.profile._id;
 
@@ -48,7 +47,6 @@ exports.postCreatNewTweet = (req, res, next) => {
   });
 };
 
-
 //delete a tweet
 exports.deleteTweet = (req, res, next) => {
   let tweet = req.tweet;
@@ -59,9 +57,26 @@ exports.deleteTweet = (req, res, next) => {
         error: err,
       });
     }
-    return res.json({
-      message: "Tweet deleted Successfully",
+    Tweet.find({ author: result.author }).exec((err, tweets) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Somting went wrong",
+        });
+      } else {
+        return res.json({
+          message: "Tweet deleted Successfully",
+          tweets: tweets,
+        });
+      }
     });
   });
 };
 
+
+//get tweet details
+exports.getTweetDetails = (req,res,next) =>{
+   
+  return res.json({
+    tweet: req.tweet,
+  }); 
+}
