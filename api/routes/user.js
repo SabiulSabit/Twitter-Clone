@@ -13,6 +13,17 @@ router
   .route("/user/:userId")
   .get(authController.requireSignin, userController.getUserProfile);  
 
+//get user info
+router
+  .route("/users/all")
+  .get(authController.requireSignin, userController.getAllProfile);    
+
+//other user info /user/other/
+router
+  .route("/user/other/:userId")
+  .get(authController.requireSignin, userController.getOtherUserProfile);  
+
+
 
 //get user info from user id
 router.param("userId", userController.userByID);  

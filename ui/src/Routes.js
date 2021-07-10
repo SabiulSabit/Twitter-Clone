@@ -7,6 +7,8 @@ import Signup from './components/Signup/Signup'
 import Signin from './components/Signin/Signin'
 import CreateTweet from './components/CreateTweet/CreateTweet'
 import Profile from './components/Profile/Profile'
+import OtherUser from './components/OtherUser/OtherUser'
+import AllUser from './components/AllUser/AllUser'
 
 const Routes = () => {
     return (
@@ -18,6 +20,8 @@ const Routes = () => {
           <Route path="/signin" exact component={Signin} />
           <Route path="/tweet" exact component={CreateTweet} />
           <Route path="/user/profile" exact component={Profile} />
+          <Route path="/user/find" exact component={AllUser} />
+          <Route path="/profile/:userId" exact component={OtherUser} />
           
         </Switch>
       </BrowserRouter>

@@ -14,7 +14,8 @@ const Profile = () => {
   let [userTweets, setUserTweets] = useState([]);
   //get user info
   const { user, token } = isAuthenticate();
-
+  
+  //get user info
   useEffect(() => {
     getProfile(user._id, token).then((data) => {
       if (data.error) {

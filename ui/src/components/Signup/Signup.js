@@ -73,6 +73,7 @@ const Signup = () => {
                 {...register("email", { required: true })}
               />
             </div>
+          
             <div className="form-group">
               <label htmlFor="password" className="text-muted">
                 <strong>Password </strong>
