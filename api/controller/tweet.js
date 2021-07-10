@@ -1,7 +1,5 @@
 const Tweet = require("../models/Tweet");
 
-
-
 //get tweet info from its id
 exports.postByID = (req, res, next, id) => {
   Tweet.findById(id).exec((err, tweet) => {
@@ -12,6 +10,7 @@ exports.postByID = (req, res, next, id) => {
     }
 
     req.tweet = tweet;
+    
     next();
   });
 };

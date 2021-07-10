@@ -37,6 +37,7 @@ exports.getUserProfile = (req, res, next) => {
   });
 };
 
+
 //get all user data
 exports.getAllProfile = (req, res, next) => {
   //console.log("here" req.auth.id);
