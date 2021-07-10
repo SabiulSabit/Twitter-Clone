@@ -7,6 +7,7 @@ import Navbar from "../Navbar/NavbarShow";
 //api method
 import {signup} from '../../api/auth.js'
 
+
 const Signup = () => {
   let [error, setError] = useState(0);
   let [success, setSuccess] = useState(0);
