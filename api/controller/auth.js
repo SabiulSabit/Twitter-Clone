@@ -62,3 +62,10 @@ exports.postSignin = (req,res,next) => {
     });
   });
 }
+
+
+//user signout
+exports.signout = (req, res, next) => {
+  res.clearCookie('t');
+  res.json({ message: "Signout Successfully" });
+}
