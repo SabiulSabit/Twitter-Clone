@@ -26,6 +26,17 @@ exports.isAuth = (req, res, next) => {
   next();
 };
 
+//check if the user is the author of a post
+exports.isAuthor = (req, res, next) => {
+  if (!req.profile._id == req.tweet.author) {
+    return res.status(403).json({
+      error: "Access Denied",
+    });
+  }
+
+  next();
+};
+
 // create user account
 exports.postSignUp = (req,res,next) =>{
     const { name, email, password } = req.body;

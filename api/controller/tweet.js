@@ -1,5 +1,21 @@
 const Tweet = require("../models/Tweet");
 
+
+
+//get post info from its id
+exports.postByID = (req, res, next, id) => {
+  Tweet.findById(id).exec((err, tweet) => {
+    if (err || !tweet) {
+      return res.status(400).json({
+        error: "Tweet not Found",
+      });
+    }
+
+    req.tweet = tweet;
+    next();
+  });
+};
+
 //create new tweet
 exports.postCreatNewTweet = (req, res, next) => {
 
@@ -32,3 +48,21 @@ exports.postCreatNewTweet = (req, res, next) => {
     });
   });
 };
+
+
+//delete a post
+exports.deleteTweet = (req, res, next) => {
+  let tweet = req.tweet;
+
+  tweet.remove((err, result) => {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+    return res.json({
+      message: "Tweet deleted Successfully",
+    });
+  });
+};
+
