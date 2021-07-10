@@ -175,8 +175,7 @@ exports.putUnFollowUser = (req,res,nex) =>{
                 });
               } else {
                 result.hashPassword = undefined
-                return res.json({
-                  
+                return res.json({ 
                   user: result
                 });
               }

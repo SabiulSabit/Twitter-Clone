@@ -34,9 +34,6 @@ router
   .put(authController.requireSignin, userController.putUnFollowUser);    
 
 
-
-
-
 //get user info from user id
 router.param("userId", userController.userByID);  
 
