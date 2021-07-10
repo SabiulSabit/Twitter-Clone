@@ -133,3 +133,56 @@ exports.putFollowUser = (req, res, next) => {
     }
   );
 };
+
+
+//unfollow user
+exports.putUnFollowUser = (req,res,nex) =>{
+ 
+    // user can't unfollow himself
+    if (req.auth.id == req.profile._id) {
+      return res.status(400).json({
+        error: "You Can't unfollow yourself",
+      });
+    }
+
+    User.findByIdAndUpdate(
+      req.profile._id,
+      {
+        $pull: { followers: req.auth.id },
+      },
+      {
+        new: true,
+      },
+      (err, result) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Something went wrong",
+          });
+        } else {
+         
+          User.findByIdAndUpdate(
+            req.auth.id,
+            {
+              $pull: { following: req.profile._id },
+            },
+            {
+              new: true,
+            },
+            (err1, result1) => {
+              if (err1) {
+                return res.status(400).json({
+                  error: "Something went wrong",
+                });
+              } else {
+                result.hashPassword = undefined
+                return res.json({
+                  
+                  user: result
+                });
+              }
+            }
+          );
+        }
+      }
+    );
+}

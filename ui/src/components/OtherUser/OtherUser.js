@@ -4,7 +4,11 @@ import Navbar from "../Navbar/NavbarShow";
 import { Link, useParams } from "react-router-dom";
 
 //api method
-import { getOtherProfile, putFollowUser } from "../../api/user";
+import {
+  getOtherProfile,
+  putFollowUser,
+  putUnFollowUser,
+} from "../../api/user";
 import { isAuthenticate } from "../../api/auth.js";
 
 const OtherUser = () => {
@@ -35,15 +39,25 @@ const OtherUser = () => {
 
   //follow user
   let follow = () => {
-   
-    putFollowUser(params, token).then((data)=>{
-      if(data.error){
+    putFollowUser(params, token).then((data) => {
+      if (data.error) {
         setError(data.error);
         setSuccess(0);
-      }else{
+      } else {
         setOtherUserInfo(data.user);
       }
-    })
+    });
+  };
+
+  let unfollow = () => {
+    putUnFollowUser(params, token).then((data) => {
+      if (data.error) {
+        setError(data.error);
+        setSuccess(0);
+      } else {
+        setOtherUserInfo(data.user);
+      }
+    });
   };
 
   let showTweets = (tweets) => (
@@ -68,6 +82,39 @@ const OtherUser = () => {
     </Container>
   );
 
+  let showFillowUnfollowBtn = () => {
+    let isFollow = false;
+    //check if the authenticate user follow this user
+    if (otherUserInfo.followers) {
+      for (let i = 0; i < otherUserInfo.followers.length; i++) {
+        if (otherUserInfo.followers[i] === user._id) {
+          isFollow = true;
+          break;
+        }
+      }
+    }
+
+    if (isFollow === true) {
+      return (
+        <button
+          className="btn btn-outline-danger float-right"
+          onClick={unfollow}
+        >
+          Unfollow
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="btn btn-outline-warning float-right"
+          onClick={follow}
+        >
+          Follow
+        </button>
+      );
+    }
+  };
+
   let showProfile = () => (
     <Container>
       <Row>
@@ -87,14 +134,7 @@ const OtherUser = () => {
               </h5>
               <h5>Followers</h5>
             </Col>
-            <Col md={12}>
-              <button
-                className="btn btn-outline-warning float-right"
-                onClick={follow}
-              >
-                Follow
-              </button>
-            </Col>
+            <Col md={12}>{showFillowUnfollowBtn()}</Col>
           </Row>
         </Col>
 

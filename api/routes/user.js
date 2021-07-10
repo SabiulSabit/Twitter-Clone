@@ -26,7 +26,12 @@ router
 //follow user
 router
   .route("/user/follow/:userId")
-  .put(authController.requireSignin, userController.putFollowUser);  
+  .put(authController.requireSignin, userController.putFollowUser);    
+
+//unfollow user
+router
+  .route("/user/unfollow/:userId")
+  .put(authController.requireSignin, userController.putUnFollowUser);    
 
 
 

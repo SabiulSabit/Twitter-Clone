@@ -81,3 +81,25 @@ export const getProfile = (userID, token) => {
       });
   };
   
+
+  // unfollow user
+
+  export const putUnFollowUser = ( userID, token) => {
+ 
+    let id = Object.values(userID);
+
+    return fetch(`${API}/user/unfollow/${id[0]}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
