@@ -62,3 +62,44 @@ export const createTweet = (text,userID, token) => {
        return err;
      });
  };
+
+ 
+ // like a tweet 
+ export const putTweetLike = (postID, token) => {
+ 
+  return fetch(`${API}/tweet/like/${postID}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+ 
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+
+ 
+ // unlike a tweet 
+ export const putTweetUnlike = (postID, token) => {
+ 
+  return fetch(`${API}/tweet/unlike/${postID}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+ 
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      return err;
+    });
+};

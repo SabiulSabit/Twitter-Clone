@@ -80,3 +80,56 @@ exports.getTweetDetails = (req,res,next) =>{
     tweet: req.tweet,
   }); 
 }
+
+//like a post
+exports.putLike = (req,res,next) =>{
+  
+  Tweet.findByIdAndUpdate(
+    req.tweet._id,
+    {
+      $push: { likes: req.auth.id },
+    },
+    {
+      new: true,
+    },
+    (err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Something went wrong",
+        });
+      } else {
+       
+        return res.json({
+          tweet: result,
+        });
+
+      }
+    }
+  );
+}
+
+//unlike a post from like
+exports.putUnLike = (req,res,next) =>{
+  Tweet.findByIdAndUpdate(
+    req.tweet._id,
+    {
+      $pull: { likes: req.auth.id },
+    },
+    {
+      new: true,
+    },
+    (err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Something went wrong",
+        });
+      } else {
+       
+        return res.json({
+          tweet: result,
+        });
+
+      }
+    }
+  );
+}
