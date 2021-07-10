@@ -4,6 +4,28 @@ const jwt = require("jsonwebtoken");
 const expressJWT = require("express-jwt");
 require('dotenv').config();
 
+
+//require sign in
+exports.requireSignin = expressJWT({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  userProperty: "auth",
+});
+
+//check if the user is loged in
+exports.isAuth = (req, res, next) => {
+  let user = req.profile && req.auth && req.profile._id == req.auth.id;
+
+  //console.log(req.profile._id, req.auth.id);
+  if (!user) {
+    return res.status(403).json({
+      error: "Access Denied",
+    });
+  }
+
+  next();
+};
+
 // create user account
 exports.postSignUp = (req,res,next) =>{
     const { name, email, password } = req.body;

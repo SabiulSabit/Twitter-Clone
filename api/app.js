@@ -12,6 +12,7 @@ const app = express();
 
 // import all router
 const authRouter =  require('./routes/auth.js');
+const tweetRouter =  require('./routes/tweet.js');
 
 
 //middleware
@@ -34,6 +35,7 @@ mongoose.connect(process.env.DATABASE, {
 
 //routing file
 app.use("/api",authRouter);
+app.use("/api",tweetRouter);
 
 
 
