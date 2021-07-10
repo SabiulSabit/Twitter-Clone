@@ -12,6 +12,8 @@ ui/coverage
 # production
 ui/build
 
+ui/.env
+
 # misc
 ui/.DS_Store
 ui/.env.local
