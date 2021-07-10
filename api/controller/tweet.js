@@ -133,3 +133,24 @@ exports.putUnLike = (req,res,next) =>{
     }
   );
 }
+
+
+//get tweets
+exports.getTweets = (req,res,next) => {
+   
+  Tweet.find()
+    .populate('author', "_id username")
+    .sort('-created')
+    .exec((err, tweets)=>{
+      if(err){
+        return res.status(400).json({
+          error: "Something went wrong",
+        });
+      }else{
+        return res.json({
+          tweets: tweets,
+        });
+      }
+     
+    })
+} 

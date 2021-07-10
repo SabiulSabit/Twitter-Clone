@@ -41,6 +41,13 @@ router
   .route("/tweet/unlike/:postId")
   .put(authController.requireSignin, tweetController.putUnLike);  
 
+
+//get tweets for home page
+router
+  .route("/tweets")
+  .get(authController.requireSignin, tweetController.getTweets);  
+  
+
 //get user info from user id
 router.param("userId", userController.userByID);
 

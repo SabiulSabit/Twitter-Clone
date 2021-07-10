@@ -103,3 +103,23 @@ export const createTweet = (text,userID, token) => {
       return err;
     });
 };
+
+
+//get tweets for home page
+export const getTweets = (token) => {
+ 
+  return fetch(`${API}/tweets}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+ 
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      return err;
+    });
+};
