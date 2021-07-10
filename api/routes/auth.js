@@ -18,5 +18,4 @@ router.route("/signin")
 router.route('/signout')
     .get(authController.signout) 
 
-
 module.exports = router;
