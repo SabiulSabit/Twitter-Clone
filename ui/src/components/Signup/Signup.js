@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import Navbar from "../Navbar/NavbarShow";
+
+import Navbar from '../Navbar/NavbarShow'
 
 //api method
 import {signup} from '../../api/auth.js'
 
 
 const Signup = () => {
+
+  //state
   let [error, setError] = useState(0);
   let [success, setSuccess] = useState(0);
 
@@ -123,7 +126,7 @@ const Signup = () => {
 
   return (
   <>
-      <Navbar></Navbar>
+    <Navbar></Navbar>
       {showSuccess()}
       {showError()}
       {singUPForm()}

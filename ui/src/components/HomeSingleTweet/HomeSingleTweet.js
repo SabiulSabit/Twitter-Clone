@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 
+import Navbar from '../Navbar/NavbarShow'
+
 
 //api method
 import { isAuthenticate } from "../../api/auth";

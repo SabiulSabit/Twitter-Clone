@@ -1,0 +1,16 @@
+
+
+.navLink{
+    text-decoration: none;
+    margin-right: 10px;
+    color: white;
+}
+
+.navLink:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.active-nav{
+    color: #feff89;
+}

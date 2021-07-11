@@ -159,6 +159,17 @@ exports.putUnLike = (req, res, next) => {
 
 //get tweets
 exports.getTweets = (req, res, next) => {
+
+  let {page=1} = req.query;
+  let limit = 10;
+  page =  parseInt(page)
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
+  let nextPage = 0, prevPage = 0;
+
+
+ // console.log(page);
+
   Tweet.find()
     .populate("author", "_id username")
     .sort( { 'createdAt' : -1 })
@@ -168,8 +179,22 @@ exports.getTweets = (req, res, next) => {
           error: "Something went wrong",
         });
       } else {
+       // console.log(startIndex, endIndex)
+       // console.log(tweets.slice(startIndex, endIndex))
+        let data = tweets.slice(startIndex, endIndex);
+       // console.log(data)
+        if (endIndex < tweets.length) {
+           nextPage = page + 1;
+        }
+        if (startIndex > 0) {
+           prevPage = page - 1;
+        }
+
+       // console.log(nextPage, prevPage)
         return res.json({
-          tweets: tweets,
+          nextPage: nextPage,
+          prevPage: prevPage,
+          tweets: tweets.slice(startIndex, endIndex),
         });
       }
     });

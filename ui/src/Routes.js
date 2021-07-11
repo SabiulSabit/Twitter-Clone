@@ -13,8 +13,8 @@ import SingleTweet from "./components/SingleTweet/SingleTweet";
 
 const Routes = () => {
     return (
-        <BrowserRouter>
-       {/* <Navbar></Navbar> */}
+        <BrowserRouter >
+       
         <Switch> 
           <Route path="/" exact component={Home} />
           <Route path="/signup" exact component={Signup} />
@@ -26,8 +26,12 @@ const Routes = () => {
           <Route path="/tweet/details/:tweetId" exact component={SingleTweet} />
           
         </Switch>
+            
       </BrowserRouter>
+ 
     )
 }
+
+
 
 export default Routes;

@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Navbar from "../Navbar/NavbarShow";
+
+import Navbar from '../Navbar/NavbarShow'
 
 //get api 
 import { isAuthenticate  } from "../../api/auth";

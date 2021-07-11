@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Navbar from "../Navbar/NavbarShow";
 import { Link, useParams } from "react-router-dom";
+
+import Navbar from '../Navbar/NavbarShow'
 
 //api method
 import {

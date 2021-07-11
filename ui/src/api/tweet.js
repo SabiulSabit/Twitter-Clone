@@ -106,9 +106,10 @@ export const createTweet = (text,userID, token) => {
 
 
 //get tweets for home page
-export const getTweets = (token) => {
+export const getTweets = (token, page=1) => {
  
-  return fetch(`${API}/tweets`, {
+  //console.log(page);
+  return fetch(`${API}/tweets/?page=${page}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

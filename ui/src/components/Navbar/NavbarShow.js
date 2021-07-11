@@ -1,7 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Link , NavLink} from "react-router-dom";
+import { Navbar, Nav,  } from "react-bootstrap";
 import { signout, isAuthenticate } from "../../api/auth";
+
+
+
+import './NavbarShow.css'
 
 const NavbarShow = () => {
   const { user } = isAuthenticate();
@@ -15,16 +19,16 @@ const NavbarShow = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} exact to="/" className="navLink" activeClassName="active-nav">
               Home
             </Nav.Link>
 
             {!isAuthenticate() && (
               <>
-                <Nav.Link as={Link} to="/signin">
+                <Nav.Link as={Link} activeClassName="active-nav" className="navLink" exact to="/signin">
                   Signin
                 </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
+                <Nav.Link as={Link} activeClassName="active-nav" className="navLink" exact to="/signup">
                   Signup
                 </Nav.Link>
               </>
@@ -32,16 +36,16 @@ const NavbarShow = () => {
 
             {isAuthenticate() && (
               <>
-                <Nav.Link as={Link} to="/user/profile">
+                <Nav.Link as={Link} activeClassName="active-nav" className="navLink" exact  to="/user/profile">
                   {user.username}
                 </Nav.Link>
-                <Nav.Link as={Link} to="/tweet">
+                <Nav.Link as={Link} activeClassName="active-nav" className="navLink" exact to="/tweet">
                   Tweet
                 </Nav.Link>
-                <Nav.Link as={Link} to="/user/find">
+                <Nav.Link as={Link} activeClassName="active-nav" className="navLink" exact to="/user/find">
                   Find User
                 </Nav.Link>
-                <Nav.Link as={Link} to="/" onClick={() => signout()}>
+                <Nav.Link as={Link}  activeClassName="active-nav" className="navLink" exact  to="/" onClick={() => signout()}>
                   Signout
                 </Nav.Link>
               </>

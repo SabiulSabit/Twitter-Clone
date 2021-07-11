@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Navbar from "../Navbar/NavbarShow";
 import HomeSingleTweet from "../HomeSingleTweet/HomeSingleTweet";
+
+import Navbar from '../Navbar/NavbarShow'
 
 //api method
 import { isAuthenticate } from "../../api/auth";
@@ -12,26 +13,33 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+
   let [error, setError] = useState(0);
   let [success, setSuccess] = useState(0);
-  let [allTweets, setallTweets] = useState([]);
+  var [allTweets, setallTweets] = useState([]);
+  let [next, setNext] = useState(0);
+  let [prev, setPrev] = useState(0);
 
   //get user info
   const { user, token } = isAuthenticate();
 
   //get user info
   useEffect(() => {
-    getTweets(token).then((data) => {
-      if (data.error) {
-        setError(data.error);
-        setSuccess(0);
-      } else {
-        setSuccess(1);
-        setError(0);
-        setallTweets(data.tweets);
+    if(token){
+      getTweets(token).then((data) => {
+        if (data.error) {
+          setError(data.error);
+          setSuccess(0);
+        } else {
+          setSuccess(1);
+          setError(0);
+          setallTweets(data.tweets);
+          setNext(data.nextPage)
+          setPrev(data.prevPage)
+        }
+      });
+    }
 
-      }
-    });
   }, []);
 
   let showTweets = () => {
@@ -51,11 +59,54 @@ const Home = () => {
 
   }
 
+  let newPage = (page) =>{
+    setallTweets([]);
+    getTweets(token, page).then((data_new) => {
+      if (data_new.error) {
+        setError(data_new.error);
+        setSuccess(0);
+      } else {
+        setSuccess(1);
+        setError(0);
+  
+        setallTweets(data_new.tweets);
+   
+        setNext(data_new.nextPage)
+        setPrev(data_new.prevPage)
+      }
+    });
+  }
+
+
+  let showNext = () => {
+    return <button className="btn btn-outline-info ml-2" onClick={ () => newPage(next)}>Next</button>
+  }
+
+  let showPrev = () => {
+    return <button className="btn btn-outline-info mr-2" onClick={ () => newPage(prev)}>Prev</button>
+  } 
+
+
+  let showPagination = () =>{
+    return <Container> 
+      <Row>
+        <Col md={8} className="offset-md-2 text-center">
+          <div className="inline">
+              { prev ? showPrev() : "" }
+              {next ? showNext() : "" }
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  }
+
   return (
     <div>
       <Navbar></Navbar>
 
       { user ? showTweets() : showWelcomeMsg() }
+
+      {showPagination()}
 
     </div>
   );

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
-import Navbar from "../Navbar/NavbarShow";
+import Navbar from '../Navbar/NavbarShow'
 
 //api
 import { isAuthenticate } from "../../api/auth.js";

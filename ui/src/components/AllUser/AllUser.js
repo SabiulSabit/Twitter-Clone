@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import Navbar from "../Navbar/NavbarShow";
 import { getAllProfile } from "../../api/user";
 import { isAuthenticate } from "../../api/auth.js";
 import { Link } from "react-router-dom";
+
+import Navbar from '../Navbar/NavbarShow'
 
 const AllUser = () => {
   let [error, setError] = useState(0);
