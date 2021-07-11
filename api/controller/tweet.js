@@ -72,18 +72,15 @@ exports.deleteTweet = (req, res, next) => {
   });
 };
 
-
 //get tweet details
-exports.getTweetDetails = (req,res,next) =>{
-   
+exports.getTweetDetails = (req, res, next) => {
   return res.json({
     tweet: req.tweet,
-  }); 
-}
+  });
+};
 
 //like a post
-exports.putLike = (req,res,next) =>{
-  
+exports.putLike = (req, res, next) => {
   Tweet.findByIdAndUpdate(
     req.tweet._id,
     {
@@ -98,18 +95,31 @@ exports.putLike = (req,res,next) =>{
           error: "Something went wrong",
         });
       } else {
-       
-        return res.json({
-          tweet: result,
-        });
+        // return res.json({
+        //   tweet: result,
+        // });
 
+        Tweet.findById(result._id)
+        .populate("author", "_id username")
+        .sort("-created")
+        .exec((err, tweet) => {
+          if (err) {
+            return res.status(400).json({
+              error: "Something went wrong",
+            });
+          } else {
+            return res.json({
+              tweet: tweet,
+            });
+          }
+        });
       }
     }
   );
-}
+};
 
 //unlike a post from like
-exports.putUnLike = (req,res,next) =>{
+exports.putUnLike = (req, res, next) => {
   Tweet.findByIdAndUpdate(
     req.tweet._id,
     {
@@ -124,33 +134,43 @@ exports.putUnLike = (req,res,next) =>{
           error: "Something went wrong",
         });
       } else {
-       
-        return res.json({
-          tweet: result,
-        });
+        // return res.json({
+        //   tweet: result,
+        // });
 
+        Tweet.findById(result._id)
+          .populate("author", "_id username")
+          .sort("-created")
+          .exec((err, tweet) => {
+            if (err) {
+              return res.status(400).json({
+                error: "Something went wrong",
+              });
+            } else {
+              return res.json({
+                tweet: tweet,
+              });
+            }
+          });
       }
     }
   );
-}
-
+};
 
 //get tweets
-exports.getTweets = (req,res,next) => {
-   
+exports.getTweets = (req, res, next) => {
   Tweet.find()
-    .populate('author', "_id username")
-    .sort('-created')
-    .exec((err, tweets)=>{
-      if(err){
+    .populate("author", "_id username")
+    .sort( { 'createdAt' : -1 })
+    .exec((err, tweets) => {
+      if (err) {
         return res.status(400).json({
           error: "Something went wrong",
         });
-      }else{
+      } else {
         return res.json({
           tweets: tweets,
         });
       }
-     
-    })
-} 
+    });
+};

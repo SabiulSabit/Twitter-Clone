@@ -108,7 +108,7 @@ export const createTweet = (text,userID, token) => {
 //get tweets for home page
 export const getTweets = (token) => {
  
-  return fetch(`${API}/tweets}`, {
+  return fetch(`${API}/tweets`, {
     method: "GET",
     headers: {
       Accept: "application/json",

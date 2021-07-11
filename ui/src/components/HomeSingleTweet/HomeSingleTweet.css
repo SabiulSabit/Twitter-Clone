@@ -1,0 +1,18 @@
+.fa-icon{
+    font-size: 28px;
+}
+
+.fa-icon:hover{
+    cursor: pointer;
+}
+
+.liked{
+    color: #f3558e;
+}
+
+
+.tweetBox{
+    border: 1px solid #303a52;
+    padding: 30px 10px;
+    margin: 10px 0;
+}

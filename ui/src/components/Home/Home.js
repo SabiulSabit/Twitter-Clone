@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Navbar from "../Navbar/NavbarShow";
+import HomeSingleTweet from "../HomeSingleTweet/HomeSingleTweet";
 
 //api method
 import { isAuthenticate } from "../../api/auth";
@@ -34,19 +35,7 @@ const Home = () => {
   }, []);
 
   let showTweets = () => {
-    return (
-      <Container>
-        <Row>
-          <Col md={8} className="offset-md-2">
-            <div className="tweetBox">
-              <p>
-                This is the twiter body. <span className="ml-5"> - Sabit</span>
-              </p>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    );
+    return  allTweets ? allTweets.map( (t,  i) =>  { return (<HomeSingleTweet key={i} tweet={t}></HomeSingleTweet>)} ) : <h1>No Tweet Found</h1> ;
   };
 
   let showWelcomeMsg = () => {

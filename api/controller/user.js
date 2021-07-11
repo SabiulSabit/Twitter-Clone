@@ -23,7 +23,9 @@ exports.getUserProfile = (req, res, next) => {
   // console.log(req.profile)
   let user = req.profile;
 
-  Tweet.find({ author: req.profile._id }).exec((err, result) => {
+  Tweet.find({ author: req.profile._id })
+    .sort( { 'createdAt' : -1 })
+    .exec((err, result) => {
     if (err) {
       return res.status(400).json({
         error: "Something went wrong",
@@ -64,7 +66,7 @@ exports.getOtherUserProfile = (req, res, next) => {
     } else {
       user.hashPassword = undefined;
       Tweet.find({ author: req.profile._id })
-        .sort("-createdAt")
+        .sort( { 'createdAt' : -1 })
         .exec((err1, tweets) => {
           if (err1) {
             return res.status(400).json({
