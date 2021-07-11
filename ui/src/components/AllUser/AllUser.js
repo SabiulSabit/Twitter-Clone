@@ -8,24 +8,23 @@ import Navbar from '../Navbar/NavbarShow'
 
 const AllUser = () => {
   let [error, setError] = useState(0);
-  let [success, setSuccess] = useState(0);
   let [usersInfo, setUsersInfo] = useState([]);
 
   //get user info
   const { token } = isAuthenticate();
 
+  //get users data
   useEffect(() => {
     getAllProfile(token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
       } else {
-        console.log(data.users);
         setUsersInfo(data.users);
       }
     });
   }, []);
 
+  //show user card
   let showUsersCard = (users) => (
     <Container>
       <Row>
@@ -37,8 +36,8 @@ const AllUser = () => {
                   <Card.Title>{user.username}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
                     Total Follower:{" "}
-                    {user.username.followers
-                      ? user.username.followers.length
+                    {user.followers
+                      ? user.followers.length
                       : 0}
                   </Card.Subtitle>
                   
@@ -60,7 +59,9 @@ const AllUser = () => {
       <Container>
         <Row>
           <Col md={12}>
-            <h1>Total User Found: {usersInfo ? usersInfo.length : 0}</h1>
+            <h1>Total User Found:  <span className="text-danger"> {usersInfo ? usersInfo.length : 0} </span>  </h1>
+              {error ? <h5 className="alert alert-danger"> {error} </h5> : "" }  
+              {usersInfo && usersInfo.length >0 ? "" : <h5 className="alert alert-warning text-center"> No Other User Found :( </h5>}  
             <hr />
           </Col>
         </Row>

@@ -23,8 +23,7 @@ const Routes = () => {
           <Route path="/user/profile" exact component={Profile} />
           <Route path="/user/find" exact component={AllUser} />
           <Route path="/profile/:userId" exact component={OtherUser} />
-          <Route path="/tweet/details/:tweetId" exact component={SingleTweet} />
-          
+          <Route path="/tweet/details/:tweetId" exact component={SingleTweet} />     
         </Switch>
             
       </BrowserRouter>

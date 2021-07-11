@@ -1,16 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import Navbar from '../Navbar/NavbarShow'
+import Navbar from "../Navbar/NavbarShow";
 
-//get api 
-import { isAuthenticate  } from "../../api/auth";
-import { createTweet  } from "../../api/tweet";
+//get api
+import { isAuthenticate } from "../../api/auth";
+import { createTweet } from "../../api/tweet";
 
 const CreateTweet = () => {
- 
   let [error, setError] = useState(0);
   let [success, setSuccess] = useState(0);
   let [tweetId, setTweetId] = useState(0);
@@ -24,22 +23,23 @@ const CreateTweet = () => {
 
   //get user info
   const { user, token } = isAuthenticate();
-
+  
+  //handel submit
   const onSubmit = (data) => {
- 
-    createTweet(data, user._id, token).then( (data)=> {
-      if(data.error){
+    createTweet(data, user._id, token).then((data) => {
+      if (data.error) {
         setError(1);
         setSuccess(0);
-      }else{
+      } else {
         setSuccess(1);
         setError(0);
-        setTweetId(data.data._id)
+        setTweetId(data.data._id);
         setValue("text", "", { shouldValidate: false });
       }
-    })
+    });
   };
 
+  //show form
   const showTweetForm = () => (
     <Container>
       <Row>
@@ -70,25 +70,48 @@ const CreateTweet = () => {
     </Container>
   );
 
+  /// show success message
   let showSuccess = () => {
-    
-    if(success===1){
-      return <p className="text-success">Tweet Publish Successfully! <Link to={`/tweet/details/${tweetId}`}>View</Link></p>
-    }else{
+    if (success === 1) {
+      return (
+        <Container>
+          {" "}
+          <Row>
+            {" "}
+            <Col md={12}>
+              <p className="text-success">
+                Tweet Published Successfully!{" "}
+                <Link to={`/tweet/details/${tweetId}`}>View</Link>
+              </p>
+            </Col>{" "}
+          </Row>{" "}
+        </Container>
+      );
+    } else {
       return "";
     }
-  }
-
+  };
+ 
+  /// show error message
   let showError = () => {
-    if(error===1){
-      return <p className="text-danger">Somting went Wrong! Please Try Again.</p>
-    }
-    else{
+    if (error === 1) {
+      return (
+        <Container>
+          {" "}
+          <Row>
+            {" "}
+            <Col md={12}>
+              <p className="text-danger">
+                Somting went Wrong! Please Try Again.
+              </p>{" "}
+            </Col>{" "}
+          </Row>{" "}
+        </Container>
+      );
+    } else {
       return "";
     }
-  }
-   
-  
+  };
 
   return (
     <>

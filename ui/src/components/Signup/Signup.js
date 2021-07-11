@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import Navbar from '../Navbar/NavbarShow'
 
 //api method
 import {signup} from '../../api/auth.js'
+import { isAuthenticate  } from "../../api/auth";
 
 
 const Signup = () => {
@@ -22,7 +24,8 @@ const Signup = () => {
     setValue,
     formState: { errors },
   } = useForm();
-
+  
+  //on submit handeler
   let onSubmit = (data) => {
     const { name, email, password } = data;
     signup({ name, email, password }).then((data) => {
@@ -40,6 +43,7 @@ const Signup = () => {
     });
   };
 
+  //sing up form
   const singUPForm = () => (
     <Container className="center">
       <Row>
@@ -100,7 +104,8 @@ const Signup = () => {
       </Row>
     </Container>
   );
-
+ 
+  //show error msg
   const showError = () => {
     //console.log(error);
     return (
@@ -113,6 +118,7 @@ const Signup = () => {
     );
   };
 
+  //show success msg
   const showSuccess = () => {
     return (
       <div
@@ -123,13 +129,22 @@ const Signup = () => {
       </div>
     );
   };
+  
+    //redirect user
+    const redirectUser = () => {
 
+      if(isAuthenticate()){
+        return <Redirect to="/" />;
+      }
+    };
+    
   return (
   <>
     <Navbar></Navbar>
       {showSuccess()}
       {showError()}
       {singUPForm()}
+      {redirectUser()}
     </>
   );
 };

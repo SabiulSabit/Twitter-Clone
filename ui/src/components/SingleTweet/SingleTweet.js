@@ -3,8 +3,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
-import Navbar from '../Navbar/NavbarShow'
+import Navbar from "../Navbar/NavbarShow";
 
 //api
 import { isAuthenticate } from "../../api/auth.js";
@@ -14,9 +15,10 @@ import { getTweet, putTweetLike, putTweetUnlike } from "../../api/tweet";
 import "./SingleTweet.css";
 
 const SingleTweet = () => {
+ 
   let [tweet, setTweet] = useState({});
+  let [author, setAuthor] = useState({});
   let [error, setError] = useState(0);
-  let [success, setSuccess] = useState(0);
 
   //url params
   const params = useParams();
@@ -30,11 +32,11 @@ const SingleTweet = () => {
     getTweet(id[0], token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
+
       } else {
         setTweet(data.tweet);
+        setAuthor(data.tweet.author);
         setError(0);
-        setSuccess(1);
       }
     });
   }, []);
@@ -44,31 +46,28 @@ const SingleTweet = () => {
     putTweetLike(tweet._id, token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
-      }else{
+      } else {
         setTweet(data.tweet);
       }
     });
   };
 
   //unlike from like
-  let unlike = () =>{
+  let unlike = () => {
     putTweetUnlike(tweet._id, token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
-      }else{
+      } else {
         setTweet(data.tweet);
       }
     });
-  }
- 
+  };
+
   //show the like button
   let showLikeButton = () => {
+    let isLike = false;
 
-    let isLike =  false;
-
-    if(tweet.likes){
+    if (tweet.likes) {
       for (let i = 0; i < tweet.likes.length; i++) {
         if (tweet.likes[i] === user._id) {
           isLike = true;
@@ -76,8 +75,8 @@ const SingleTweet = () => {
         }
       }
     }
-      
-    if(isLike){
+
+    if (isLike) {
       return (
         <FontAwesomeIcon
           className="fa-icon liked"
@@ -85,7 +84,7 @@ const SingleTweet = () => {
           icon={faThumbsUp}
         />
       );
-    }else{
+    } else {
       return (
         <FontAwesomeIcon
           className="fa-icon"
@@ -94,23 +93,39 @@ const SingleTweet = () => {
         />
       );
     }
-   
   };
 
+  //show single tweet
   let showSingleTweet = () => {
     return (
       <Container>
         <Row>
           <Col md={8} className="offset-md-2">
-            <p>{tweet.text}</p>
-            <hr />
-            <p>Total Likes: {tweet.likes ? tweet.likes.length : 0}</p>
-            <p>{showLikeButton()}</p>
+            <h3 className="text-info">Tweet</h3>
+           
+             {error ? <h6 className="alert alert-danger">{error}</h6> : ''}
+
+            <div className="tweetBox">
+              <p className="tweetText">{tweet.text} </p>
+              <span className="ml-5 tweetAuthor"> - @{author.username}</span>
+
+              <div className="inline mt-3">
+                <span>
+                  Total Likes: {tweet.likes ? tweet.likes.length : 0}{" "}
+                </span>
+                <span className="float-right">
+                  Posted: {moment(tweet.createdAt).fromNow()}
+                </span>
+              </div>
+
+              <p>{showLikeButton()}</p>
+            </div>
           </Col>
         </Row>
       </Container>
     );
   };
+
 
   return (
     <>

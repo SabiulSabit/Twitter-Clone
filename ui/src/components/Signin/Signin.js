@@ -20,6 +20,7 @@ const Signin = () => {
     formState: { errors },
   } = useForm();
 
+  //on submit handeler
   let onSubmit = (data) => {
     const { email, password } = data;
     setLoading(true);
@@ -40,6 +41,7 @@ const Signin = () => {
     });
   };
 
+  //show sign up form
   const singUPForm = () => (
     <Container className="center">
       <Row>
@@ -83,6 +85,7 @@ const Signin = () => {
     </Container>
   );
 
+  //show error msg
   const showError = () => {
     console.log(error);
     return (
@@ -95,6 +98,7 @@ const Signin = () => {
     );
   };
 
+ //show loading msg
   const showLoading = () => {
     return (
       loading && (
@@ -104,7 +108,8 @@ const Signin = () => {
       )
     );
   };
-
+ 
+  //redirect user
   const redirectUser = () => {
     if (redirect) {
           return <Redirect to="/user/profile" />;

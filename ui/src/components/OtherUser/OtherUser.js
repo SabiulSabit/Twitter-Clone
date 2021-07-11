@@ -14,7 +14,6 @@ import { isAuthenticate } from "../../api/auth.js";
 
 const OtherUser = () => {
   let [error, setError] = useState(0);
-  let [success, setSuccess] = useState(0);
   let [otherUserInfo, setOtherUserInfo] = useState({});
   let [otherUserTweets, setOtherUserTweets] = useState([]);
 
@@ -30,7 +29,7 @@ const OtherUser = () => {
     getOtherProfile(params, token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
+        throw error;
       } else {
         setOtherUserInfo(data.user);
         setOtherUserTweets(data.tweets);
@@ -43,24 +42,26 @@ const OtherUser = () => {
     putFollowUser(params, token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
+        throw error;
       } else {
         setOtherUserInfo(data.user);
       }
     });
   };
 
+  //unfollow user
   let unfollow = () => {
     putUnFollowUser(params, token).then((data) => {
       if (data.error) {
         setError(data.error);
-        setSuccess(0);
+        throw error;
       } else {
         setOtherUserInfo(data.user);
       }
     });
   };
-
+  
+  //show all tweets
   let showTweets = (tweets) => (
     <Container>
       <Row>
@@ -71,7 +72,7 @@ const OtherUser = () => {
                 <h5 className="text-success">{t.text}</h5>
 
                 <button className="float-right btn btn-outline-info">
-                   <Link to={`/tweet/details/${t._id}`}>View Details</Link> 
+                   <Link to={`/tweet/details/${t._id}`} className="viewDetails">View Details</Link> 
                 </button>
 
                 <hr className="mt-5" />
@@ -83,7 +84,8 @@ const OtherUser = () => {
     </Container>
   );
 
-  let showFillowUnfollowBtn = () => {
+  //show follow / unfollow button
+  let showFollowUnfollowBtn = () => {
     let isFollow = false;
     //check if the authenticate user follow this user
     if (otherUserInfo.followers) {
@@ -116,26 +118,27 @@ const OtherUser = () => {
     }
   };
 
+  //show user profile
   let showProfile = () => (
     <Container>
       <Row>
         <Col md={4}>
-          <h3 className="text-info">User Name: {otherUserInfo.username}</h3>
+          <h3 className="text-info">User Name: <br /> {otherUserInfo.username}</h3>
           <Row>
             <Col md={6} className="text-center">
-              <h5>
+              <h5 className="text-danger">
                 {" "}
                 {otherUserInfo.following ? otherUserInfo.following.length : 0}
               </h5>
               <h5>Following</h5>
             </Col>
             <Col md={6} className="text-center">
-              <h5>
+              <h5 className="text-danger">
                 {otherUserInfo.followers ? otherUserInfo.followers.length : 0}
               </h5>
               <h5>Followers</h5>
             </Col>
-            <Col md={12}>{showFillowUnfollowBtn()}</Col>
+            <Col md={12}>{showFollowUnfollowBtn()}</Col>
           </Row>
         </Col>
 
@@ -144,17 +147,21 @@ const OtherUser = () => {
           <h5>Total: {otherUserTweets ? otherUserTweets.length : 0}</h5>
           <hr />
 
+          { otherUserTweets  && otherUserTweets.length > 0   ? "" : <h5 className="alert alert-warning text-center"> No Tweets Found :( </h5>}  
+
           {otherUserTweets ? showTweets(otherUserTweets) : ""}
         </Col>
       </Row>
     </Container>
   );
+
   return (
     <>
       <Navbar></Navbar>
       {showProfile()}
     </>
   );
+  
 };
 
 export default OtherUser;

@@ -74,9 +74,23 @@ exports.deleteTweet = (req, res, next) => {
 
 //get tweet details
 exports.getTweetDetails = (req, res, next) => {
-  return res.json({
-    tweet: req.tweet,
-  });
+ 
+  Tweet.findById(req.tweet._id)
+    .populate("author", "_id username")
+    .sort("-created")
+    .exec((err, tweet) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Something went wrong",
+        });
+      } else {
+ 
+        return res.json({
+          tweet: tweet,
+        });
+      }
+    });
+
 };
 
 //like a post
@@ -95,24 +109,20 @@ exports.putLike = (req, res, next) => {
           error: "Something went wrong",
         });
       } else {
-        // return res.json({
-        //   tweet: result,
-        // });
-
         Tweet.findById(result._id)
-        .populate("author", "_id username")
-        .sort("-created")
-        .exec((err, tweet) => {
-          if (err) {
-            return res.status(400).json({
-              error: "Something went wrong",
-            });
-          } else {
-            return res.json({
-              tweet: tweet,
-            });
-          }
-        });
+          .populate("author", "_id username")
+          .sort("-created")
+          .exec((err, tweet) => {
+            if (err) {
+              return res.status(400).json({
+                error: "Something went wrong",
+              });
+            } else {
+              return res.json({
+                tweet: tweet,
+              });
+            }
+          });
       }
     }
   );
@@ -134,10 +144,6 @@ exports.putUnLike = (req, res, next) => {
           error: "Something went wrong",
         });
       } else {
-        // return res.json({
-        //   tweet: result,
-        // });
-
         Tweet.findById(result._id)
           .populate("author", "_id username")
           .sort("-created")
@@ -159,38 +165,32 @@ exports.putUnLike = (req, res, next) => {
 
 //get tweets
 exports.getTweets = (req, res, next) => {
-
-  let {page=1} = req.query;
+  let { page = 1 } = req.query;
   let limit = 10;
-  page =  parseInt(page)
-  const startIndex = (page - 1) * limit
-  const endIndex = page * limit
-  let nextPage = 0, prevPage = 0;
+  page = parseInt(page);
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  let nextPage = 0,
+    prevPage = 0;
 
-
- // console.log(page);
+  // console.log(page);
 
   Tweet.find()
     .populate("author", "_id username")
-    .sort( { 'createdAt' : -1 })
+    .sort({ createdAt: -1 })
     .exec((err, tweets) => {
       if (err) {
         return res.status(400).json({
           error: "Something went wrong",
         });
       } else {
-       // console.log(startIndex, endIndex)
-       // console.log(tweets.slice(startIndex, endIndex))
-        let data = tweets.slice(startIndex, endIndex);
-       // console.log(data)
         if (endIndex < tweets.length) {
-           nextPage = page + 1;
+          nextPage = page + 1;
         }
         if (startIndex > 0) {
-           prevPage = page - 1;
+          prevPage = page - 1;
         }
 
-       // console.log(nextPage, prevPage)
         return res.json({
           nextPage: nextPage,
           prevPage: prevPage,
