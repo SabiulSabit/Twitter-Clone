@@ -1,4 +1,5 @@
 const Tweet = require("../models/Tweet");
+const User = require("../models/User");
 
 //get tweet info from its id
 exports.postByID = (req, res, next, id) => {
@@ -74,7 +75,6 @@ exports.deleteTweet = (req, res, next) => {
 
 //get tweet details
 exports.getTweetDetails = (req, res, next) => {
- 
   Tweet.findById(req.tweet._id)
     .populate("author", "_id username")
     .sort("-created")
@@ -84,13 +84,11 @@ exports.getTweetDetails = (req, res, next) => {
           error: "Something went wrong",
         });
       } else {
- 
         return res.json({
           tweet: tweet,
         });
       }
     });
-
 };
 
 //like a post
@@ -173,29 +171,34 @@ exports.getTweets = (req, res, next) => {
   let nextPage = 0,
     prevPage = 0;
 
-  // console.log(page);
+  User.findById(req.auth.id).exec((err, user) => {
+    if (err) {
+      throw err;
+    } else {
+      user.following.push(req.auth.id);
+      Tweet.find({ author: { $in: user.following } })
+        .populate("author", "_id username")
+        .sort({ createdAt: -1 })
+        .exec((err, tweets) => {
+          if (err) {
+            return res.status(400).json({
+              error: "Something went wrong",
+            });
+          } else {
+            if (endIndex < tweets.length) {
+              nextPage = page + 1;
+            }
+            if (startIndex > 0) {
+              prevPage = page - 1;
+            }
 
-  Tweet.find()
-    .populate("author", "_id username")
-    .sort({ createdAt: -1 })
-    .exec((err, tweets) => {
-      if (err) {
-        return res.status(400).json({
-          error: "Something went wrong",
+            return res.json({
+              nextPage: nextPage,
+              prevPage: prevPage,
+              tweets: tweets.slice(startIndex, endIndex),
+            });
+          }
         });
-      } else {
-        if (endIndex < tweets.length) {
-          nextPage = page + 1;
-        }
-        if (startIndex > 0) {
-          prevPage = page - 1;
-        }
-
-        return res.json({
-          nextPage: nextPage,
-          prevPage: prevPage,
-          tweets: tweets.slice(startIndex, endIndex),
-        });
-      }
-    });
+    }
+  });
 };
